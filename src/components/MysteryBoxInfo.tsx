@@ -40,7 +40,7 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
         <p className="text-center">Opening Cost (Edit if needed)</p>
         <div className="flex gap-4">
           <img src={gst} className="h-14"></img>
-          <input type="number" className='outline-0 h-14 bg-transparent text-2xl max-w-full' value={String(spentGST)} onChange={(e) => {setSpentGST(Number(e.target.value))}}></input>
+          <input type="number" inputMode="decimal" className='outline-0 h-14 bg-transparent text-2xl w-[50%]' value={String(spentGST)} onChange={(e) => {setSpentGST(Number(e.target.value))}}></input>
         </div>
       </div>
     </>
