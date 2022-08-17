@@ -11,6 +11,7 @@ module.exports = {
         secondary: "#395B64",
         accent: "#A5C9CA",
         action: "#E7F6F2",
+        error: "#A92424",
       }
     },
   },

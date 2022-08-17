@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import AvailableItems from './components/AvailableItems';
 import Footer from './components/Footer';
@@ -8,7 +8,10 @@ import ReceivedItems from './components/ReceivedItems';
 import Results from './components/Results';
 import TopBar from './components/TopBar';
 import getGstAmountFromMbLevel from './constants/getGstAmountFromMbLevel';
+import { ICoins } from './interfaces/ICoins';
+import { IItems } from './interfaces/IItems';
 import { IStateItems } from './interfaces/IStateItems';
+import { coins, items as itemsTest } from './testData';
 
 const items = {
   eff: [0, 0, 0, 0],
@@ -23,14 +26,25 @@ function App() {
   const [receivedGST, setReceivedGST] = useState<number>(0)
   const [chain, setChain] = useState<string>("sol")
   const [spentGST, setSpentGST] = useState<number>(getGstAmountFromMbLevel(4))
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [itemData, setItemData] = useState<IItems>()
+  const [coinsData, setCoinsData] = useState<ICoins>()
+
+  useEffect(() => {
+    setItemData(itemsTest)
+    setCoinsData(coins)
+  }, [])
+  
   return (
     <PaddingWrapper>
       <TopBar chain={chain} setChain={setChain}/>
       <ReceivedItems receivedItems={receivedItems} setReceivedItems={setReceivedItems}/>
-      <AvailableItems setReceivedItems={setReceivedItems}/>
+      <AvailableItems setReceivedItems={setReceivedItems} itemData={itemData} chain={chain}/>
       <ReceivedGst receivedGST={receivedGST} setReceivedGST={setReceivedGST}/>
       <MysteryBoxInfo spentGST={spentGST} setSpentGST={setSpentGST}/>
-      <Results chain={chain} receivedGST={receivedGST} receivedItems={receivedItems} spentGST={spentGST}/>
+      <Results chain={chain} receivedGST={receivedGST} receivedItems={receivedItems} spentGST={spentGST} itemData={itemData} coinsData={coinsData}/>
       <Footer/>
     </PaddingWrapper>
   );

@@ -6,22 +6,19 @@ import { scrollTypes } from '../enums/itemTypes';
 import { ICoins } from '../interfaces/ICoins';
 import { IItems, ItemsOnChain } from '../interfaces/IItems';
 import { IStateItems } from '../interfaces/IStateItems';
-import { coins, items } from '../testData';
 import SectionHeader from './common/SectionHeader';
 
 interface IResultsProps {
   receivedItems: IStateItems,
   receivedGST: number,
   chain: string,
-  spentGST: number
+  spentGST: number,
+  coinsData: ICoins | undefined,
+  itemData: IItems | undefined,
 }
 
-const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGST }) => {
-  const [itemData, setItemData] = useState<IItems>()
-  const [coinsData, setCoinsData] = useState<ICoins>()
+const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGST, itemData, coinsData }) => {
   const [totalGST, setTotalGST] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
 
   const convertGSTtoUSD = (gstAmount: number) => {
     if (coinsData) {
@@ -71,29 +68,8 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
   }
 
   useEffect(() => {
-    setItemData(items)
-    setCoinsData(coins)
-  }, [])
-
-  useEffect(() => {
     countGstFromItems()
   }, [receivedItems, receivedGST, countGstFromItems])
-
-  if (isLoading) {
-    return (
-      <>
-        <SectionHeader text="Results" />
-        <p className='text-3xl text-center'>Loading...</p>
-      </>
-    )
-  } else if (isError) {
-    return (
-      <>
-        <SectionHeader text="Results" />
-        <p className='text-3xl text-center'>An error happened retrieving data from the server.</p>
-      </>
-    )
-  }
 
   return (
     <>
