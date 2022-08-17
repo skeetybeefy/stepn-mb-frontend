@@ -1,8 +1,9 @@
-import { FC } from "react";
-import { IStateItems } from "../interfaces/IStateItems";
-import { items } from "../assets"
-import { itemTypes } from "../enums/itemTypes";
-import SectionHeader from "./common/SectionHeader";
+import { FC } from 'react';
+
+import { items } from '../assets';
+import { itemTypes } from '../enums/itemTypes';
+import { IStateItems } from '../interfaces/IStateItems';
+import Section from './common/Section';
 
 interface IReceivedItemsProps {
   receivedItems: IStateItems,
@@ -11,9 +12,8 @@ interface IReceivedItemsProps {
 
 const ReceivedItems: FC<IReceivedItemsProps> = ({ receivedItems, setReceivedItems }) => {
   return (
-    <>
-      <SectionHeader text="Received items"/>
-      <div className="border-2 border-t-0 border-secondary rounded-b-md flex flex-wrap p-2 mb-10 min-h-[40px]">
+    <Section title="Received items">
+      <div className='flex flex-wrap'>
         {
           (Object.keys(receivedItems) as Array<keyof IStateItems>).map((key) => {
             return receivedItems[key].map((count, idx) => {
@@ -42,7 +42,7 @@ const ReceivedItems: FC<IReceivedItemsProps> = ({ receivedItems, setReceivedItem
           })
         }
       </div>
-    </>
+    </Section>
   )
 }
 

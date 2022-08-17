@@ -6,7 +6,7 @@ import { scrollTypes } from '../enums/itemTypes';
 import { ICoins } from '../interfaces/ICoins';
 import { IItems, ItemsOnChain } from '../interfaces/IItems';
 import { IStateItems } from '../interfaces/IStateItems';
-import SectionHeader from './common/SectionHeader';
+import Section from './common/Section';
 
 interface IResultsProps {
   receivedItems: IStateItems,
@@ -72,15 +72,14 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
   }, [receivedItems, receivedGST, countGstFromItems])
 
   return (
-    <>
-      <SectionHeader text="Results" />
-      <div className="border-2 border-secondary rounded-b-md border-t-0 font-light p-2 flex flex-col gap-2 mb-10 text-xl">
-        {itemData ? 
-        <div className='text-center'>
-          <p>Last Price Update:</p> 
-          <p>{itemData.lastUpdate}</p>
-        </div> :
-        null}
+    <Section title="Results">
+      <div className="flex flex-col gap-2 text-xl">
+        {itemData ?
+          <div className='text-center'>
+            <p>Last Price Update:</p>
+            <p>{itemData.lastUpdate}</p>
+          </div> :
+          null}
         <div className='flex justify-between items-center'>
 
           <div id="spent" className='flex flex-col gap-2'>
@@ -114,7 +113,7 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
           </div>
         </div>
       </div>
-    </>
+    </Section>
   )
 }
 

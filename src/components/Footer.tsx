@@ -27,16 +27,16 @@ const Wallet: FC<IWalletProps> = ({ chain }) => {
     if (chain) {
       navigator.clipboard.writeText(walletAddresses[chain as keyof typeof walletAddresses])
       let popup = target.childNodes[0] as HTMLElement
-      popup.className = popupClasses + "opacity-100"
-      setTimeout(() => {popup.className = popupClasses + "opacity-0"}, 2000)
+      popup.className = popupClasses + "block"
+      setTimeout(() => {popup.className = popupClasses + "hidden"}, 2000)
     }
   }
 
-  const popupClasses = "left-[25%] transition-opacity bg-secondary top-[-1.8rem] absolute border-2 border-accent rounded-md duration-300 p-1 "
+  const popupClasses = "left-[25%] transition-all bg-secondary top-[-1.8rem] absolute border-2 border-accent rounded-md p-1 "
 
   return (
     <div className="break-words mb-4 relative" onClick={onWalletClick} id={chain}>
-      <div className={popupClasses + "opacity-0"}>
+      <div className={popupClasses + "hidden"}>
         Copied to clipboard!
       </div>
       <div className="flex gap-1 items-center justify-center">
