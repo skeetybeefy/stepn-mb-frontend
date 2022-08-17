@@ -24,8 +24,6 @@ const AvailableItems: FC<IAvailableItemsProps> = ({ setReceivedItems, itemData, 
 
 type IStateItemsProps = IAvailableItemsProps & {itemType: itemTypes}
 
-// TODO responsive border width
-
 const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, chain, setIsItemPriceError }) => {
   return (
     <div className="border-2 border-t-0 border-secondary rounded-b-md flex flex-wrap p-2">
@@ -34,7 +32,7 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
         if (itemData) {
           if (itemTypes[itemType] === "scrolls") {
             let obj = itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemTypes[itemType] as keyof Omit<ItemsOnChain, "gems">]
-            isError = !(obj[scrollTypes[idx]][0]) // 0 value is considered as error
+            isError = !(obj[scrollTypes[idx]][0]) // value of 0 is considered an error
             if (isError) {
               setIsItemPriceError(true)
             }
