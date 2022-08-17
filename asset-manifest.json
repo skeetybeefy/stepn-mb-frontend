@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/stepn-mb-frontend/static/css/main.cee1562f.css",
-    "main.js": "/stepn-mb-frontend/static/js/main.4fd80e14.js",
+    "main.css": "/stepn-mb-frontend/static/css/main.c994356e.css",
+    "main.js": "/stepn-mb-frontend/static/js/main.1475394d.js",
     "static/media/eth.png": "/stepn-mb-frontend/static/media/eth.e91b63a0f17cd095ffcf.png",
     "static/media/gst.png": "/stepn-mb-frontend/static/media/gst.bd1e5d17ac88455972d4.png",
     "static/media/sol.png": "/stepn-mb-frontend/static/media/sol.76e4f302c4c3eb516398.png",
@@ -25,11 +25,11 @@
     "static/media/lvl1.svg": "/stepn-mb-frontend/static/media/lvl1.0a6301fac1d604f914cc2b99c52fbbdb.svg",
     "static/media/lvl2.svg": "/stepn-mb-frontend/static/media/lvl2.71842bc30c3643e802b68969dc180131.svg",
     "index.html": "/stepn-mb-frontend/index.html",
-    "main.cee1562f.css.map": "/stepn-mb-frontend/static/css/main.cee1562f.css.map",
-    "main.4fd80e14.js.map": "/stepn-mb-frontend/static/js/main.4fd80e14.js.map"
+    "main.c994356e.css.map": "/stepn-mb-frontend/static/css/main.c994356e.css.map",
+    "main.1475394d.js.map": "/stepn-mb-frontend/static/js/main.1475394d.js.map"
   },
   "entrypoints": [
-    "static/css/main.cee1562f.css",
-    "static/js/main.4fd80e14.js"
+    "static/css/main.c994356e.css",
+    "static/js/main.1475394d.js"
   ]
 }
