@@ -1,6 +1,8 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import AvailableItems from './components/AvailableItems';
+import ErrorAllPricesSection from './components/ErrorAllPricesSection';
+import ErrorItemPriceSection from './components/ErrorItemPriceSection';
 import Footer from './components/Footer';
 import MysteryBoxInfo from './components/MysteryBoxInfo';
 import ReceivedGst from './components/ReceivedGst';
@@ -26,6 +28,7 @@ function App() {
   const [receivedGST, setReceivedGST] = useState<number>(0)
   const [chain, setChain] = useState<string>("sol")
   const [spentGST, setSpentGST] = useState<number>(getGstAmountFromMbLevel(4))
+  const [isItemPriceError, setIsItemPriceError] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -40,8 +43,15 @@ function App() {
   return (
     <PaddingWrapper>
       <TopBar chain={chain} setChain={setChain}/>
+      { 
+        isError ? 
+        <ErrorAllPricesSection/> : 
+        isItemPriceError ?
+        <ErrorItemPriceSection/> :
+        null
+      }
       <ReceivedItems receivedItems={receivedItems} setReceivedItems={setReceivedItems}/>
-      <AvailableItems setReceivedItems={setReceivedItems} itemData={itemData} chain={chain}/>
+      <AvailableItems setReceivedItems={setReceivedItems} itemData={itemData} chain={chain} setIsItemPriceError={setIsItemPriceError}/>
       <ReceivedGst receivedGST={receivedGST} setReceivedGST={setReceivedGST}/>
       <MysteryBoxInfo spentGST={spentGST} setSpentGST={setSpentGST}/>
       <Results chain={chain} receivedGST={receivedGST} receivedItems={receivedItems} spentGST={spentGST} itemData={itemData} coinsData={coinsData}/>

@@ -8,15 +8,16 @@ import { IItems, ItemsOnChain } from '../interfaces/IItems';
 interface IAvailableItemsProps {
   setReceivedItems: React.Dispatch<React.SetStateAction<IStateItems>>,
   itemData: IItems | undefined,
-  chain: string
+  chain: string,
+  setIsItemPriceError: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AvailableItems: FC<IAvailableItemsProps> = ({ setReceivedItems, itemData, chain }) => {
+const AvailableItems: FC<IAvailableItemsProps> = ({ setReceivedItems, itemData, chain, setIsItemPriceError }) => {
   const [itemType, setItemType] = useState<itemTypes>(itemTypes.eff)
   return (
     <div className='mb-10'>
       <ItemTypeSelector itemType={itemType} setItemType={setItemType} />
-      <Items itemType={itemType} setReceivedItems={setReceivedItems} itemData={itemData} chain={chain}/>
+      <Items itemType={itemType} setReceivedItems={setReceivedItems} itemData={itemData} chain={chain} setIsItemPriceError={setIsItemPriceError}/>
     </div>
   )
 }
@@ -25,7 +26,7 @@ type IStateItemsProps = IAvailableItemsProps & {itemType: itemTypes}
 
 // TODO responsive border width
 
-const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, chain }) => {
+const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, chain, setIsItemPriceError }) => {
   return (
     <div className="border-2 border-t-0 border-secondary rounded-b-md flex flex-wrap p-2">
       {(Object.keys(items[itemTypes[itemType] as keyof typeof itemTypes])).map((_, idx) => {
@@ -34,9 +35,15 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
           if (itemTypes[itemType] === "scrolls") {
             let obj = itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemTypes[itemType] as keyof Omit<ItemsOnChain, "gems">]
             isError = !(obj[scrollTypes[idx]][0]) // 0 value is considered as error
+            if (isError) {
+              setIsItemPriceError(true)
+            }
           } else {
             let obj = itemData[chain as keyof Omit<typeof itemData, "lastUpdate">].gems[itemTypes[itemType] as keyof Omit<ItemsOnChain, "scrolls">]
             isError = !(obj[`lvl${idx + 1}`][0])
+            if (isError) {
+              setIsItemPriceError(true)
+            }
           }
         }
         return (
@@ -47,7 +54,7 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
   )
 }
 
-type IItem = Omit<IStateItemsProps, "itemData" | "chain"> & {idx: number, error: boolean}
+type IItem = Omit<IStateItemsProps, "itemData" | "chain" | "setIsItemPriceError"> & {idx: number, error: boolean}
 
 const Item: FC<IItem> = ({ idx, error, itemType, setReceivedItems }) => {
   return (

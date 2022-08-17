@@ -1,11 +1,12 @@
 import { FC } from "react"
 
 interface ISectionHeaderProps {
-  text: string
+  text: string,
+  isError?: boolean
 }
 
-const SectionHeader: FC<ISectionHeaderProps> = ({ text }) => {
-  return (<div className="border-2 border-secondary text-center rounded-t-md bg-secondary font-light">{text}</div>)
+const SectionHeader: FC<ISectionHeaderProps> = ({ text, isError }) => {
+  return (<div className={(isError ? "border-error bg-error" : "border-secondary bg-secondary") + " border-2 text-center rounded-t-md font-light"}>{text}</div>)
 }
 
 export default SectionHeader
