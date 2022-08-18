@@ -26,8 +26,10 @@ const items = {
 function App() {
   const [receivedItems, setReceivedItems] = useState<IStateItems>(items)
   const [receivedGST, setReceivedGST] = useState<number>(0)
-  const [chain, setChain] = useState<string>("sol")
-  const [spentGST, setSpentGST] = useState<number>(getGstAmountFromMbLevel(4))
+  const startingChain = window.localStorage.getItem("chain") ?? "sol"
+  const [chain, setChain] = useState(startingChain)
+  const startingMbLevel = window.localStorage.getItem("mbLevel") ?? "4"
+  const [spentGST, setSpentGST] = useState<number>(getGstAmountFromMbLevel(Number(startingMbLevel)))
   const [isItemPriceError, setIsItemPriceError] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)

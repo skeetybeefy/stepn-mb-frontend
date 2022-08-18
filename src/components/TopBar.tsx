@@ -34,6 +34,7 @@ const ChainSelector: FC<IChainSelector> = ({ chain, setChain }) => {
   const handleChange = (selectedOption: SingleValue<typeof options[number]>, actionMeta: ActionMeta<typeof options[number]>) => {
     if (selectedOption) {
       setChain(selectedOption.value)
+      window.localStorage.setItem("chain", selectedOption.value)
     }
   }
 

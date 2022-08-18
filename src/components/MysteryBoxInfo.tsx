@@ -13,12 +13,14 @@ interface IMysteryBoxInfoProps {
 }
 
 const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => {
-  const [mbLevel, setMbLevel] = useState<number>(4)
+  const startingMbLevel = window.localStorage.getItem("mbLevel") ?? "4"
+  const [mbLevel, setMbLevel] = useState(Number(startingMbLevel))
 
   const handleChange = (selectedOption: SingleValue<typeof mbOptions[number]>, actionMeta: ActionMeta<typeof mbOptions[number]>) => {
     if (selectedOption) {
       setSpentGST(getGstAmountFromMbLevel(selectedOption.value))
       setMbLevel(selectedOption.value)
+      window.localStorage.setItem("mbLevel", String(selectedOption.value))
     }
   }
 
@@ -33,7 +35,7 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
           <Select
             options={mbOptions}
             isSearchable={false}
-            defaultValue={mbOptions[3]}
+            defaultValue={mbOptions[mbLevel - 1]}
             onChange={handleChange}
           />
         </div>
