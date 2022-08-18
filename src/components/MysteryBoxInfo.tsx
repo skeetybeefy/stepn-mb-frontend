@@ -31,7 +31,7 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
         <p className="text-center">Mystery Box Level</p>
         <div className="flex justify-center items-center gap-1 text-primary">
           <div className="w-1/4">
-            <img className="w-full" src={mysteryBoxes[mbLevel - 1]}></img>
+            <img className="w-full" alt={`Mystery box LVL ${mbLevel}`} src={mysteryBoxes[mbLevel - 1]}></img>
           </div>
           <Select
             options={mbOptions}
@@ -42,7 +42,7 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
         </div>
         <p className="text-center">Opening Cost (Edit if needed)</p>
         <div className="flex gap-4">
-          <img src={gst} className="h-14"></img>
+          <img src={gst} alt="gst" className="h-14"></img>
           <input type="text" inputMode="decimal" placeholder={String(spentGST)} className='outline-0 h-14 bg-transparent text-2xl w-[50%]' value={spentGSTInput} onChange={(e) => {
             setSpentGSTInput(e.target.value) 
             setSpentGST(parseFloat(e.target.value.replaceAll(",", ".")) || 0) 
