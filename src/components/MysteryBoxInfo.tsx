@@ -15,6 +15,7 @@ interface IMysteryBoxInfoProps {
 const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => {
   const startingMbLevel = window.localStorage.getItem("mbLevel") ?? "4"
   const [mbLevel, setMbLevel] = useState(Number(startingMbLevel))
+  const [spentGSTString, setSpentGSTString] = useState(String(spentGST))
 
   const handleChange = (selectedOption: SingleValue<typeof mbOptions[number]>, actionMeta: ActionMeta<typeof mbOptions[number]>) => {
     if (selectedOption) {
@@ -42,7 +43,10 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
         <p className="text-center">Opening Cost (Edit if needed)</p>
         <div className="flex gap-4">
           <img src={gst} className="h-14"></img>
-          <input type="number" inputMode="decimal" className='outline-0 h-14 bg-transparent text-2xl w-[50%]' value={String(spentGST)} onChange={(e) => { setSpentGST(Number(e.target.value)) }}></input>
+          <input type="text" inputMode="decimal" className='outline-0 h-14 bg-transparent text-2xl w-[50%]' value={spentGSTString} onChange={(e) => {
+            setSpentGSTString(e.target.value) 
+            setSpentGST(parseFloat(e.target.value.replaceAll(",", "."))) 
+          }}></input>
         </div>
       </div>
     </Section>

@@ -13,7 +13,10 @@ const ReceivedGst: FC<IReceivedGst> = ({ receivedGST, setReceivedGST }) => {
     <Section title="Received GST">
       <div className='flex gap-4'>
         <img src={gst} alt="gst" className="h-14"></img>
-        <input type="number" inputMode='decimal' placeholder="0" className='outline-0 h-14 bg-transparent text-2xl w-[50%]' onChange={(e) => { setReceivedGST(Number(e.target.value)) }}></input>
+        <input type="text" inputMode='decimal' placeholder="0" className='outline-0 h-14 bg-transparent text-2xl w-[50%]' onChange={(e) => {
+          setReceivedGST(parseFloat(e.target.value.replaceAll(",", ".")))
+        }}>
+        </input>
       </div>
     </Section>
   )
