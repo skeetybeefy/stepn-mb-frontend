@@ -20,6 +20,7 @@ const MysteryBoxInfo: FC<IMysteryBoxInfoProps> = ({ spentGST, setSpentGST }) => 
   const handleChange = (selectedOption: SingleValue<typeof mbOptions[number]>, actionMeta: ActionMeta<typeof mbOptions[number]>) => {
     if (selectedOption) {
       setSpentGST(getGstAmountFromMbLevel(selectedOption.value))
+      setSpentGSTInput(String(getGstAmountFromMbLevel(selectedOption.value)))
       setMbLevel(selectedOption.value)
       window.localStorage.setItem("mbLevel", String(selectedOption.value))
     }
