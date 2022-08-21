@@ -4,6 +4,7 @@ import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import AvailableItems from './components/AvailableItems';
 import ErrorAllPricesSection from './components/ErrorAllPricesSection';
 import Footer from './components/Footer';
+import Loading from './components/Loading';
 import MysteryBoxInfo from './components/MysteryBoxInfo';
 import ReceivedGst from './components/ReceivedGst';
 import ReceivedItems from './components/ReceivedItems';
@@ -61,6 +62,11 @@ function App() {
   return (
     <PaddingWrapper>
       <TopBar chain={chain} setChain={setChain} setIsItemPriceError={setIsItemPriceError}/>
+      {
+        isLoading ?
+        <Loading/> :
+        null
+      }
       { 
         isError ? 
         <ErrorAllPricesSection/> : 
