@@ -42,15 +42,9 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
     if (itemData && coinsData) {
       let total = 0; // in chain coins (satoshi)
       (Object.keys(receivedItems)).forEach((key) => {
-        if (key !== "scrolls") {
-          receivedItems[key as keyof IStateItems].forEach((count, idx) => {
-            total += itemData[chain as keyof Record<"sol" | "bsc" | "eth", ItemsOnChain>].gems[key][`lvl${idx + 1}`][0] * count
-          })
-        } else {
-          receivedItems[key as keyof IStateItems].forEach((count, idx) => {
-            total += itemData[chain as keyof Record<"sol" | "bsc" | "eth", ItemsOnChain>].scrolls[scrollTypes[idx]][0] * count
-          })
-        }
+        receivedItems[key as keyof IStateItems].forEach((count, idx) => {
+          total += itemData[chain as keyof Omit<IItems, "lastUpdate">][key as keyof IStateItems][idx] * count
+        })
       })
 
       total /= divisor[chain as keyof typeof divisor]

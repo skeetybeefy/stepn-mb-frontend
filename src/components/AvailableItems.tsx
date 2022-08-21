@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { items } from '../assets';
 import { IStateItems } from '../interfaces/IStateItems';
-import { itemTypes, scrollTypes } from '../enums/itemTypes'
-import { IItems, ItemsOnChain } from '../interfaces/IItems';
+import { itemTypes } from '../enums/itemTypes'
+import { IItems } from '../interfaces/IItems';
 
 interface IAvailableItemsProps {
   setReceivedItems: React.Dispatch<React.SetStateAction<IStateItems>>,
@@ -17,12 +17,12 @@ const AvailableItems: FC<IAvailableItemsProps> = ({ setReceivedItems, itemData, 
   return (
     <div className='mb-10'>
       <ItemTypeSelector itemType={itemType} setItemType={setItemType} />
-      <Items itemType={itemType} setReceivedItems={setReceivedItems} itemData={itemData} chain={chain} setIsItemPriceError={setIsItemPriceError}/>
+      <Items itemType={itemType} setReceivedItems={setReceivedItems} itemData={itemData} chain={chain} setIsItemPriceError={setIsItemPriceError} />
     </div>
   )
 }
 
-type IStateItemsProps = IAvailableItemsProps & {itemType: itemTypes}
+type IStateItemsProps = IAvailableItemsProps & { itemType: itemTypes }
 
 const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, chain, setIsItemPriceError }) => {
   return (
@@ -30,33 +30,26 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
       {(Object.keys(items[itemTypes[itemType] as keyof typeof itemTypes])).map((_, idx) => {
         let isError = false
         if (itemData) {
-          if (itemTypes[itemType] === "scrolls") {
-            let obj = itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemTypes[itemType] as keyof Omit<ItemsOnChain, "gems">]
-            isError = !(obj[scrollTypes[idx]][0]) // value of 0 is considered an error
-            if (isError) {
-              setIsItemPriceError(true)
-            }
-          } else {
-            let obj = itemData[chain as keyof Omit<typeof itemData, "lastUpdate">].gems[itemTypes[itemType] as keyof Omit<ItemsOnChain, "scrolls">]
-            isError = !(obj[`lvl${idx + 1}`][0])
-            if (isError) {
-              setIsItemPriceError(true)
-            }
-          }
+          isError = !itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemTypes[itemType] as keyof IStateItems][idx]
         }
         return (
-          <Item key={idx} idx={idx} itemType={itemType} setReceivedItems={setReceivedItems} error={isError}/>
+          <Item key={idx} idx={idx} itemType={itemType} setReceivedItems={setReceivedItems} error={isError} setIsItemPriceError={setIsItemPriceError}/>
         )
       })}
     </div>
   )
 }
 
-type IItem = Omit<IStateItemsProps, "itemData" | "chain" | "setIsItemPriceError"> & {idx: number, error: boolean}
+type IItem = Omit<IStateItemsProps, "itemData" | "chain"> & { idx: number, error: boolean }
 
-const Item: FC<IItem> = ({ idx, error, itemType, setReceivedItems }) => {
+const Item: FC<IItem> = ({ idx, error, itemType, setReceivedItems, setIsItemPriceError }) => {
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => setIsItemPriceError(error), 300)
+    }
+  })
   return (
-    <div className={(error ? "bg-error" : "bg-secondary") + " w-1/4 border-2 border-accent rounded-md"} onClick={() => {
+    <div className={(error ? "opacity-30" : "bg-secondary") + " w-1/4 border-2 border-accent rounded-md"} onClick={error ? () => {} : () => {
       setReceivedItems(prevState => {
         return {
           ...prevState,

@@ -1,19 +1,19 @@
+import axios from 'axios';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import AvailableItems from './components/AvailableItems';
 import ErrorAllPricesSection from './components/ErrorAllPricesSection';
-import ErrorItemPriceSection from './components/ErrorItemPriceSection';
 import Footer from './components/Footer';
 import MysteryBoxInfo from './components/MysteryBoxInfo';
 import ReceivedGst from './components/ReceivedGst';
 import ReceivedItems from './components/ReceivedItems';
 import Results from './components/Results';
 import TopBar from './components/TopBar';
+import ErrorItemPriceSection from './components/WarningItemPriceSection';
 import getGstAmountFromMbLevel from './constants/getGstAmountFromMbLevel';
 import { ICoins } from './interfaces/ICoins';
 import { IItems } from './interfaces/IItems';
 import { IStateItems } from './interfaces/IStateItems';
-import { coins, items as itemsTest } from './testData';
 
 const items = {
   eff: [0, 0, 0, 0],
@@ -22,6 +22,8 @@ const items = {
   res: [0, 0, 0, 0],
   scrolls: [0, 0, 0, 0, 0]
 }
+
+const BACKEND_URL = process.env.URL || "http://localhost:3000"
 
 function App() {
   const [receivedItems, setReceivedItems] = useState<IStateItems>(items)
@@ -38,13 +40,27 @@ function App() {
   const [coinsData, setCoinsData] = useState<ICoins>()
 
   useEffect(() => {
-    setItemData(itemsTest)
-    setCoinsData(coins)
+    (async () => {
+      try {
+        setIsLoading(true)
+        const { data: items } = await axios.get(`${BACKEND_URL}/items`)
+        setItemData(items)
+        const { data: coins } = await axios.get(`${BACKEND_URL}/coins`)
+        setCoinsData(coins)
+        setIsLoading(false)
+      } catch (error) {
+        setIsLoading(false)
+        setIsError(true)
+        if (error instanceof Error) {
+          console.log(error.message)
+        }
+      }
+    })()
   }, [])
   
   return (
     <PaddingWrapper>
-      <TopBar chain={chain} setChain={setChain}/>
+      <TopBar chain={chain} setChain={setChain} setIsItemPriceError={setIsItemPriceError}/>
       { 
         isError ? 
         <ErrorAllPricesSection/> : 

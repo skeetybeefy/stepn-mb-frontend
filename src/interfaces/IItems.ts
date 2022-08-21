@@ -1,7 +1,9 @@
+import { IStateItems } from "./IStateItems"
+
 export interface IItems {
-  sol: ItemsOnChain,
-  bsc: ItemsOnChain,
-  eth: ItemsOnChain,
+  sol: IStateItems,
+  bsc: IStateItems,
+  eth: IStateItems,
   lastUpdate: string
 }
 

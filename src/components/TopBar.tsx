@@ -4,27 +4,25 @@ import { chains } from '../assets';
 
 interface ITopBarProps {
   chain: string,
-  setChain: React.Dispatch<React.SetStateAction<string>>
+  setChain: React.Dispatch<React.SetStateAction<string>>,
+  setIsItemPriceError: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TopBar: FC<ITopBarProps> = ({ chain, setChain }) => {
+const TopBar: FC<ITopBarProps> = ({ chain, setChain, setIsItemPriceError }) => {
   return (
     <div className='flex items-center mb-10 justify-between text-xl font-bold'>
       <p className=''>StepN-MB</p>
       <div className='flex gap-2 text-primary items-center'>
         <img alt={chain} src={chains[chain as keyof typeof chains]} className="max-h-[6vh]"></img>
-        <ChainSelector chain={chain} setChain={setChain} />
+        <ChainSelector chain={chain} setChain={setChain} setIsItemPriceError={setIsItemPriceError}/>
       </div>
     </div>
   )
 }
 
-interface IChainSelector {
-  chain: string,
-  setChain: React.Dispatch<React.SetStateAction<string>>
-}
+type IChainSelector = ITopBarProps
 
-const ChainSelector: FC<IChainSelector> = ({ chain, setChain }) => {
+const ChainSelector: FC<IChainSelector> = ({ chain, setChain, setIsItemPriceError }) => {
   const options = [
     { value: "sol", label: "SOL" },
     { value: "bsc", label: "BSC" },
@@ -34,6 +32,7 @@ const ChainSelector: FC<IChainSelector> = ({ chain, setChain }) => {
   const handleChange = (selectedOption: SingleValue<typeof options[number]>, actionMeta: ActionMeta<typeof options[number]>) => {
     if (selectedOption) {
       setChain(selectedOption.value)
+      setIsItemPriceError(false)
       window.localStorage.setItem("chain", selectedOption.value)
     }
   }
