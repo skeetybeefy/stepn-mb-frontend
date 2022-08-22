@@ -48,13 +48,13 @@ function App() {
         setItemData(items)
         const { data: coins } = await axios.get(`${BACKEND_URL}/coins`)
         setCoinsData(coins)
-        setIsLoading(false)
       } catch (error) {
-        setIsLoading(false)
         setIsError(true)
         if (error instanceof Error) {
           console.log(error.message)
         }
+      } finally {
+        setTimeout(() => setIsLoading(false), 750)
       }
     })()
   }, [])
