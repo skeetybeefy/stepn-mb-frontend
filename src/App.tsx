@@ -24,7 +24,7 @@ const items = {
   scrolls: [0, 0, 0, 0, 0]
 }
 
-const BACKEND_URL = process.env.URL || "http://62.113.97.222/"
+const BACKEND_URL = process.env.URL || "http://62.113.97.222:3000"
 
 function App() {
   const [receivedItems, setReceivedItems] = useState<IStateItems>(items)
