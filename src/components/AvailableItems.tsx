@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { items } from '../assets';
 import { IStateItems } from '../interfaces/IStateItems';
@@ -25,6 +25,15 @@ const AvailableItems: FC<IAvailableItemsProps> = ({ setReceivedItems, itemData, 
 type IStateItemsProps = IAvailableItemsProps & { itemType: itemTypes }
 
 const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, chain, setIsItemPriceError }) => {
+  if (itemData) {
+    Object.keys(itemData[chain as keyof Omit<typeof itemData, "lastUpdate">]).forEach(itemType => {
+      itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemType as keyof IStateItems].forEach((item => {
+        if (!item) {
+          setIsItemPriceError(true)
+        }
+      }))
+    })
+  }
   return (
     <div className="border-2 border-t-0 border-secondary rounded-b-md flex flex-wrap p-2">
       {(Object.keys(items[itemTypes[itemType] as keyof typeof itemTypes])).map((_, idx) => {
@@ -33,23 +42,18 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
           isError = !itemData[chain as keyof Omit<typeof itemData, "lastUpdate">][itemTypes[itemType] as keyof IStateItems][idx]
         }
         return (
-          <Item key={idx} idx={idx} itemType={itemType} setReceivedItems={setReceivedItems} error={isError} setIsItemPriceError={setIsItemPriceError}/>
+          <Item key={idx} idx={idx} itemType={itemType} setReceivedItems={setReceivedItems} error={isError} />
         )
       })}
     </div>
   )
 }
 
-type IItem = Omit<IStateItemsProps, "itemData" | "chain"> & { idx: number, error: boolean }
+type IItem = Omit<IStateItemsProps, "itemData" | "chain" | "setIsItemPriceError"> & { idx: number, error: boolean }
 
-const Item: FC<IItem> = ({ idx, error, itemType, setReceivedItems, setIsItemPriceError }) => {
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => setIsItemPriceError(error), 300)
-    }
-  })
+const Item: FC<IItem> = ({ idx, error, itemType, setReceivedItems }) => {
   return (
-    <div className={(error ? "opacity-30" : "bg-secondary") + " w-1/4 border-2 border-accent rounded-md"} onClick={error ? () => {} : () => {
+    <div className={(error ? "opacity-30" : "bg-secondary") + " w-1/4 border-2 border-accent rounded-md"} onClick={error ? () => { } : () => {
       setReceivedItems(prevState => {
         return {
           ...prevState,

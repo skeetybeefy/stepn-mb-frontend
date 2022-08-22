@@ -62,12 +62,9 @@ function App() {
   return (
     <PaddingWrapper>
       <TopBar chain={chain} setChain={setChain} setIsItemPriceError={setIsItemPriceError}/>
-      {
+      { 
         isLoading ?
         <Loading/> :
-        null
-      }
-      { 
         isError ? 
         <ErrorAllPricesSection/> : 
         isItemPriceError ?
