@@ -1,16 +1,31 @@
 const express = require('express')
 const path = require("path")
+const https = require("https")
+const fs = require("fs")
 
-const PORT = process.env.PORT_FRONT || 80
+const PORT = 80
+const PORT_SSL = 443
 
-const app = express()
-app.use(express.static(__dirname))
-app.use(express.static(path.resolve(__dirname, "build")))
+const key = fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem'))
+const cert = fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.pem'))
 
-app.get("*", (req, res) => {
+const appSecure = express()
+appSecure.use(express.static(path.resolve(__dirname, "build")))
+
+https.createServer({
+  key: key,
+  cert: cert
+}, appSecure)
+
+appSecure.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"))
 })
 
-app.listen(PORT, () => {
-  console.log("Frontend server started")
+appSecure.listen(PORT_SSL)
+
+const app = express()
+app.get("*", (req, res) => {
+  res.redirect("https://" + req.headers.host + req.url)
 })
+
+app.listen(PORT)
