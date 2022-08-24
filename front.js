@@ -8,7 +8,10 @@ const PORT_SSL = 443
 
 const key = fs.readFileSync('key.pem')
 const cert = fs.readFileSync('certificate.pem')
-const ca = fs.readFileSync('certificate_ca.pem')
+const ca = [
+  fs.readFileSync('cert_inter.pem'),
+  fs.readFileSync('cert_root.pem')
+]
 
 const appSecure = express()
 appSecure.use(express.static(path.resolve(__dirname, "build")))
