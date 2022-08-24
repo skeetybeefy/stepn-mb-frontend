@@ -8,13 +8,15 @@ const PORT_SSL = 443
 
 const key = fs.readFileSync('key.pem')
 const cert = fs.readFileSync('certificate.pem')
+const ca = fs.readFileSync('certificate_ca.pem')
 
 const appSecure = express()
 appSecure.use(express.static(path.resolve(__dirname, "build")))
 
 https.createServer({
   key: key,
-  cert: cert
+  cert: cert,
+  ca: ca
 }, appSecure)
 
 appSecure.get("*", (req, res) => {
