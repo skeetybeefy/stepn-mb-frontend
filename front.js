@@ -6,8 +6,8 @@ const fs = require("fs")
 const PORT = 80
 const PORT_SSL = 443
 
-const key = fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem'))
-const cert = fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.pem'))
+const key = fs.readFileSync('key.pem')
+const cert = fs.readFileSync('certificate.pem')
 
 const appSecure = express()
 appSecure.use(express.static(path.resolve(__dirname, "build")))
