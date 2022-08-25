@@ -19,7 +19,7 @@ appSecure.use(express.static(path.resolve(__dirname, "build")))
 https.createServer({
   key: key,
   cert: cert,
-  ca: ca
+  //ca: ca
 }, appSecure)
 
 appSecure.get("*", (req, res) => {
