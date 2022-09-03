@@ -6,11 +6,11 @@ const fs = require("fs")
 const PORT = 80
 const PORT_SSL = 443
 
-const key = fs.readFileSync('key.pem')
-const cert = fs.readFileSync('certificate.pem')
+const key = fs.readFileSync('key.pem', 'utf-8')
+const cert = fs.readFileSync('certificate.pem', 'utf-8')
 const ca = [
-  fs.readFileSync('cert_inter.pem'),
-  fs.readFileSync('cert_root.pem')
+  fs.readFileSync('cert_inter.pem', 'utf-8'),
+  fs.readFileSync('cert_root.pem', 'utf-8')
 ]
 
 const appSecure = express()
