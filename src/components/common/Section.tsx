@@ -18,7 +18,7 @@ const Section: FC<ISectionProps> = ({ title, isError, isWarning, children}) => {
         "border-error" : 
         isWarning ? 
         "border-warning" : 
-        "border-secondary") + " border-2 border-t-0 rounded-b-md p-2 mb-10 min-h-[40px] font-light"}>
+        "border-secondary") + " border-2 fhd:border-4 border-t-0 rounded-b-md p-2 mb-10 min-h-[40px] font-light"}>
        {children}
       </div>
     </>

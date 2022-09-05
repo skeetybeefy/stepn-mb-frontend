@@ -83,7 +83,7 @@ function App() {
 
 const PaddingWrapper: FC<PropsWithChildren> = ({children}) => {
   return (
-    <div className="px-8 md:px-12 lg:px-40 xl:px-[320px] 2xl:px-[500px] bg-primary text-action pt-10">
+    <div className="px-8 md:px-[200px] lg:px-[360px] xl:px-[500px] 2xl:px-[500px] fhd:px-[700px] 2k:px-[1000px] 4k:px-[3000px] bg-primary text-action pt-10 fhd:text-3xl ">
       {children}
     </div>
   )

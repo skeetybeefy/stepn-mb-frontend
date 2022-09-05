@@ -10,7 +10,7 @@ interface ITopBarProps {
 
 const TopBar: FC<ITopBarProps> = ({ chain, setChain, setIsItemPriceError }) => {
   return (
-    <div className='flex items-center mb-10 justify-between text-xl font-bold'>
+    <div className='flex items-center mb-10 justify-between text-xl font-bold fhd:text-3xl'>
       <p className=''>STEPN MB</p>
       <div className='flex gap-2 text-primary items-center'>
         <img alt={chain} src={chains[chain as keyof typeof chains]} className="max-h-[6vh]"></img>

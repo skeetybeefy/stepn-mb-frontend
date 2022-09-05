@@ -13,7 +13,7 @@ interface IReceivedItemsProps {
 const ReceivedItems: FC<IReceivedItemsProps> = ({ receivedItems, setReceivedItems }) => {
   return (
     <Section title="Received items">
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap fhd:min-h-[100px]'>
         {
           (Object.keys(receivedItems) as Array<keyof IStateItems>).map((key) => {
             return receivedItems[key].map((count, idx) => {
@@ -35,7 +35,7 @@ const ReceivedItems: FC<IReceivedItemsProps> = ({ receivedItems, setReceivedItem
                         items[key][idx] :
                         items[key][idx].default
                     } className="mx-auto" alt={key}></img>
-                    <div className="absolute bottom-0 right-0 text-xl font-normal">{count}</div>
+                    <div className="absolute bottom-0 right-0 text-xl fhd:text-2xl font-normal">{count}</div>
                   </div>
                 )
             })

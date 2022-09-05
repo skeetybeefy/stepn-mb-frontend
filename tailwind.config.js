@@ -6,6 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'fhd': '1920px',
+        '2k': '2560px',
+        '4k': '3840px'
+      },
       colors: {
         primary: "#2C3333",
         secondary: "#395B64",

@@ -35,7 +35,7 @@ const Items: FC<IStateItemsProps> = ({ itemType, setReceivedItems, itemData, cha
     })
   }
   return (
-    <div className="border-2 border-t-0 border-secondary rounded-b-md flex flex-wrap p-2">
+    <div className="border-2 border-t-0 fhd:border-4 fhd:border-t-0 border-secondary rounded-b-md flex flex-wrap p-2">
       {(Object.keys(items[itemTypes[itemType] as keyof typeof itemTypes])).map((_, idx) => {
         let isError = false
         if (itemData) {

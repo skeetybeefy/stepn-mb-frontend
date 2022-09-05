@@ -67,7 +67,7 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
 
   return (
     <Section title="Results">
-      <div className="flex flex-col gap-2 text-xl">
+      <div className="flex flex-col gap-2 text-xl fhd:text-3xl">
         {itemData ?
           <div className='text-center'>
             <p>Last Price Update:</p>

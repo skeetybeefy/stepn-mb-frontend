@@ -40,7 +40,7 @@ const Wallet: FC<IWalletProps> = ({ chain }) => {
         Copied to clipboard!
       </div>
       <div className="flex gap-1 items-center justify-center">
-        <img src={chains[chain as keyof typeof chains]} className="max-h-4"></img>
+        <img src={chains[chain as keyof typeof chains]} className="max-h-4 fhd:max-h-8"></img>
         <p className="hover:cursor-pointer hover:underline">{walletAddresses[chain as keyof typeof walletAddresses].slice(0, 8)}...{walletAddresses[chain as keyof typeof walletAddresses].slice(-8)}</p>
       </div>
     </div>
