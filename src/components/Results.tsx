@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import gst from '../assets/coins/gst.png';
 import divisor from '../constants/chainDivisors';
@@ -15,9 +15,13 @@ interface IResultsProps {
   spentGST: number,
   coinsData: ICoins | undefined,
   itemData: IItems | undefined,
+  isFeeEnabled: boolean,
+  setIsFeeEnabled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGST, itemData, coinsData }) => {
+const FEE = 0.06
+
+const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGST, itemData, coinsData, isFeeEnabled, setIsFeeEnabled }) => {
   const [totalGST, setTotalGST] = useState<number>(0)
 
   const convertGSTtoUSD = (gstAmount: number) => {
@@ -67,7 +71,7 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
 
   return (
     <Section title="Results">
-      <div className="flex flex-col gap-2 text-xl fhd:text-3xl">
+      <div className="flex flex-col gap-4 text-xl fhd:text-3xl">
         {itemData ?
           <div className='text-center'>
             <p>Last Price Update:</p>
@@ -88,22 +92,49 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
             <p className="text-right">Received</p>
             <div className='flex max-w-full items-center gap-2'>
               <img src={gst} alt="gst" className="h-10"></img>
-              <p>{totalGST.toFixed(2)}</p>
+              <p>
+                {isFeeEnabled ? 
+                (totalGST * (1 - FEE)).toFixed(2) :
+                totalGST.toFixed(2)}
+              </p>
             </div>
           </div>
 
         </div>
 
+        <div className='flex items-center text-center'>
+          <p className='flex-1'>No fee</p>
+          <div className={(isFeeEnabled ? 'bg-secondary' : 'bg-action' ) + ' h-8 rounded-[2rem] flex-1 relative transition-all'}>
+            <div className={(isFeeEnabled ? 'left-[calc(100%-32px)]' : 'left-0' ) + ' w-8 h-8 border-action border-2 bg-primary absolute rounded-[1.75rem] transition-all cursor-pointer'} onClick={() => {
+              window.localStorage.setItem("isFeeEnabled", !isFeeEnabled ? "true" : "false")
+              setIsFeeEnabled(!isFeeEnabled)
+            }}></div>
+          </div>
+          <p className='flex-1'>With fee</p>
+        </div>
+
         <div className='text-center'>
           <p>Profit</p>
           <div>
-            <p>{(totalGST - spentGST).toFixed(2)} GST</p>
+            <p>
+              {isFeeEnabled ? 
+              (totalGST * (1 - FEE) - spentGST).toFixed(2) : 
+              (totalGST - spentGST).toFixed(2)} GST
+            </p>
           </div>
           <div>
-            <p>{convertGSTtoUSD(totalGST - spentGST).toFixed(4)} USD</p>
+            <p>
+              {isFeeEnabled ? 
+              convertGSTtoUSD(totalGST * (1 - FEE) - spentGST).toFixed(4) :
+              convertGSTtoUSD(totalGST - spentGST).toFixed(4)} USD
+            </p>
           </div>
           <div>
-            <p>{convertUSDtoChainCoin(convertGSTtoUSD(totalGST - spentGST)).toFixed(4)} {chain.toUpperCase()}</p>
+            <p>
+              {isFeeEnabled ? 
+              convertUSDtoChainCoin(convertGSTtoUSD(totalGST * (1 - FEE) - spentGST)).toFixed(4) :
+              convertUSDtoChainCoin(convertGSTtoUSD(totalGST - spentGST)).toFixed(4)} {chain.toUpperCase()}
+            </p>
           </div>
         </div>
       </div>

@@ -33,6 +33,8 @@ function App() {
   const [chain, setChain] = useState(startingChain)
   const startingMbLevel = window.localStorage.getItem("mbLevel") ?? "4"
   const [spentGST, setSpentGST] = useState<number>(getGstAmountFromMbLevel(Number(startingMbLevel)))
+  const startingIsFeeEnabled = window.localStorage.getItem("isFeeEnabled") ?? "false"
+  const [isFeeEnabled, setIsFeeEnabled] = useState(startingIsFeeEnabled === "true")
   const [isItemPriceError, setIsItemPriceError] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -75,7 +77,7 @@ function App() {
       <AvailableItems setReceivedItems={setReceivedItems} itemData={itemData} chain={chain} setIsItemPriceError={setIsItemPriceError}/>
       <ReceivedGst receivedGST={receivedGST} setReceivedGST={setReceivedGST}/>
       <MysteryBoxInfo spentGST={spentGST} setSpentGST={setSpentGST}/>
-      <Results chain={chain} receivedGST={receivedGST} receivedItems={receivedItems} spentGST={spentGST} itemData={itemData} coinsData={coinsData}/>
+      <Results chain={chain} receivedGST={receivedGST} receivedItems={receivedItems} spentGST={spentGST} itemData={itemData} coinsData={coinsData} isFeeEnabled={isFeeEnabled} setIsFeeEnabled={setIsFeeEnabled}/>
       <Footer/>
     </PaddingWrapper>
   );
