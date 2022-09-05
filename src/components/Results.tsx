@@ -104,11 +104,11 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
 
         <div className='flex items-center text-center'>
           <p className='flex-1'>No fee</p>
-          <div className={(isFeeEnabled ? 'bg-secondary' : 'bg-action' ) + ' h-8 rounded-[2rem] flex-1 relative transition-all'}>
-            <div className={(isFeeEnabled ? 'left-[calc(100%-32px)]' : 'left-0' ) + ' w-8 h-8 border-action border-2 bg-primary absolute rounded-[1.75rem] transition-all cursor-pointer'} onClick={() => {
+          <div className={(isFeeEnabled ? 'bg-secondary' : 'bg-action' ) + ' h-8 rounded-[2rem] flex-1 relative transition-all cursor-pointer'} onClick={() => {
               window.localStorage.setItem("isFeeEnabled", !isFeeEnabled ? "true" : "false")
               setIsFeeEnabled(!isFeeEnabled)
-            }}></div>
+            }}>
+            <div className={(isFeeEnabled ? 'left-[calc(100%-32px)]' : 'left-0' ) + ' w-8 h-8 border-action border-2 bg-primary absolute rounded-[1.75rem] transition-all'}></div>
           </div>
           <p className='flex-1'>With fee</p>
         </div>
@@ -118,21 +118,21 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
           <div>
             <p>
               {isFeeEnabled ? 
-              (totalGST * (1 - FEE) - spentGST).toFixed(2) : 
+              ((totalGST - receivedGST) * (1 - FEE) + receivedGST - spentGST).toFixed(2) : 
               (totalGST - spentGST).toFixed(2)} GST
             </p>
           </div>
           <div>
             <p>
               {isFeeEnabled ? 
-              convertGSTtoUSD(totalGST * (1 - FEE) - spentGST).toFixed(4) :
+              convertGSTtoUSD((totalGST - receivedGST) * (1 - FEE) + receivedGST - spentGST).toFixed(4) :
               convertGSTtoUSD(totalGST - spentGST).toFixed(4)} USD
             </p>
           </div>
           <div>
             <p>
               {isFeeEnabled ? 
-              convertUSDtoChainCoin(convertGSTtoUSD(totalGST * (1 - FEE) - spentGST)).toFixed(4) :
+              convertUSDtoChainCoin(convertGSTtoUSD((totalGST - receivedGST) * (1 - FEE) + receivedGST - spentGST)).toFixed(4) :
               convertUSDtoChainCoin(convertGSTtoUSD(totalGST - spentGST)).toFixed(4)} {chain.toUpperCase()}
             </p>
           </div>
