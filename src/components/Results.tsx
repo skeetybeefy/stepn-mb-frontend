@@ -94,7 +94,7 @@ const Results: FC<IResultsProps> = ({ chain, receivedItems, receivedGST, spentGS
               <img src={gst} alt="gst" className="h-10"></img>
               <p>
                 {isFeeEnabled ? 
-                (totalGST * (1 - FEE)).toFixed(2) :
+                ((totalGST - receivedGST) * (1 - FEE) + receivedGST).toFixed(2) :
                 totalGST.toFixed(2)}
               </p>
             </div>
