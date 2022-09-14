@@ -15,6 +15,8 @@ import getGstAmountFromMbLevel from './constants/getGstAmountFromMbLevel';
 import { ICoins } from './interfaces/ICoins';
 import { IItems } from './interfaces/IItems';
 import { IStateItems } from './interfaces/IStateItems';
+import { items as itemImgSrcs, mysteryBoxes as mbImgSrcs } from './assets'
+import { itemTypes } from './enums/itemTypes';
 
 const items = {
   eff: [0, 0, 0, 0],
@@ -59,6 +61,22 @@ function App() {
         setTimeout(() => setIsLoading(false), 750)
       }
     })()
+  }, [])
+
+  useEffect(() => {
+    Object.keys(itemImgSrcs).forEach((type) => {
+      itemImgSrcs[type as keyof typeof itemImgSrcs].forEach((imgSrc) => {
+        if (type === itemTypes[itemTypes.scrolls]) {
+          new Image().src = imgSrc
+        } else {
+          new Image().src = imgSrc.default
+        }
+      })
+    })
+
+    mbImgSrcs.forEach((mbImgSrc) => {
+      new Image().src = mbImgSrc
+    })
   }, [])
   
   return (
